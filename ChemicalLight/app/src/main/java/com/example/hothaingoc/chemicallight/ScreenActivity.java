@@ -5,12 +5,14 @@ import android.os.CountDownTimer;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class ScreenActivity extends AppCompatActivity {
-
-    ViewPager viewPager;
-    SlideAdapter myAdapter;
+    LinearLayout L1,L2;
+    Animation uptodown, downtoup;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,13 +24,15 @@ public class ScreenActivity extends AppCompatActivity {
 
     private void initScreen() {
 
-        //slide intro
-        viewPager = (ViewPager) findViewById(R.id.vp_intro);
-        myAdapter = new SlideAdapter(this);
-        viewPager.setAdapter(myAdapter);
+        L1 = (LinearLayout) findViewById(R.id.l1) ;
+        L2 = (LinearLayout) findViewById(R.id.l2) ;
+        uptodown = AnimationUtils.loadAnimation(this,R.anim.uptodown);
+        downtoup = AnimationUtils.loadAnimation(this,R.anim.downtoup);
+        L1.setAnimation(uptodown);
+        L2.setAnimation(downtoup);
 
         //auto change activity
-        CountDownTimer countDownTimer = new CountDownTimer(3000,1000) {
+        CountDownTimer countDownTimer = new CountDownTimer(6000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -37,7 +41,6 @@ public class ScreenActivity extends AppCompatActivity {
             @Override
             public void onFinish() {
                 //Change screen
-                //Toast.makeText(ScreenActivity.this, "Time out", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(ScreenActivity.this,HomeActivity.class);
                 startActivity(intent);
 

@@ -1,7 +1,10 @@
 package com.example.hothaingoc.chemicallight;
 
+import android.app.Dialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -20,14 +23,16 @@ import java.util.Collections;
 public class ChemicalEquation extends AppCompatActivity {
 
 
-    final String DATABASE_NAME = "pthh.sqlite";
+    final String DATABASE_NAME = "arenadata.sqlite";
     SQLiteDatabase sqLiteDatabase;
     RecyclerView recyclerView;
     ArrayList<data_Equation> arrayList;
     adapter_Equation dataEqua;
 
-    EditText editText_TG, editText_SP;
+    EditText editText_TG;
     Button button_Search;
+
+    Dialog equaDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +40,11 @@ public class ChemicalEquation extends AppCompatActivity {
         setContentView(R.layout.activity_chemical_equation);
 
         initView();
-        readData();
+        //readData();
         actionSearch();
+
+        //Test dialog
+        equaDialog = new Dialog(this);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN,0) {
             @Override
@@ -62,13 +70,28 @@ public class ChemicalEquation extends AppCompatActivity {
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
+    public void ShowEquaDialog(View v){
+        Button button_close;
+        equaDialog.setContentView(R.layout.custom_equation);
+        button_close = (Button) equaDialog.findViewById(R.id.btn_close_eque);
+
+        button_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                equaDialog.dismiss();
+            }
+        });
+
+        equaDialog.getWindow().setBackgroundDrawable( new ColorDrawable(Color.TRANSPARENT));
+        equaDialog.show();
+    }
+
     private void actionSearch() {
 
         button_Search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String fTG = String.valueOf(editText_TG.getText());
-                String fSP = String.valueOf(editText_SP.getText());
                 findData(fTG);
             }
         });
@@ -77,15 +100,15 @@ public class ChemicalEquation extends AppCompatActivity {
     private void findData(String a){
 
         sqLiteDatabase = Database.initDatabase(this,DATABASE_NAME);
-        String countQuery = "SELECT * FROM "+"PHUONGTRINH"+" WHERE "+"CTG"+" like '%"+a+"%'";
+        String countQuery = "SELECT * FROM "+"Equation"+" WHERE "+"Ingredient"+" like '%"+a+"%'";
         Cursor cursor = sqLiteDatabase.rawQuery(countQuery,null);
         arrayList.clear();
 
         for (int i = 0; i < cursor.getCount(); i++)
         {
             cursor.moveToPosition(i);
-            String ctg = cursor.getString(1);
-            String csp = cursor.getString(2);
+            String ctg = cursor.getString(0);
+            String csp = cursor.getString(1);
             arrayList.add(new data_Equation(ctg,csp,"Normal"));
         }
         dataEqua.notifyDataSetChanged();
@@ -93,15 +116,16 @@ public class ChemicalEquation extends AppCompatActivity {
 
     private void readData() {
         sqLiteDatabase = Database.initDatabase(this,DATABASE_NAME);
-        String countQuery = "SELECT  * FROM " + "PHUONGTRINH";
+        //String countQuery = "SELECT  * FROM " + "PHUONGTRINH";
+        String countQuery = "SELECT  * FROM " + "Equation";
         Cursor cursor = sqLiteDatabase.rawQuery(countQuery,null);
         arrayList.clear();
 
         for (int i = 0; i < cursor.getCount(); i++)
         {
             cursor.moveToPosition(i);
-            String ctg = cursor.getString(1);
-            String csp = cursor.getString(2);
+            String ctg = cursor.getString(0);
+            String csp = cursor.getString(1);
             arrayList.add(new data_Equation(ctg,csp,"Normal"));
         }
 
@@ -112,7 +136,6 @@ public class ChemicalEquation extends AppCompatActivity {
     private void initView() {
 
         editText_TG = (EditText) findViewById(R.id.edt_inCTG);
-        editText_SP = (EditText) findViewById(R.id.edt_inCSP);
         button_Search = (Button) findViewById(R.id.btn_searchPT);
 
         //recyclerView

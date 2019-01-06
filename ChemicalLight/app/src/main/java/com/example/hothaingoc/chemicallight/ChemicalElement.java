@@ -1,7 +1,10 @@
 package com.example.hothaingoc.chemicallight;
 
+import android.app.Dialog;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -23,9 +26,11 @@ public class ChemicalElement extends AppCompatActivity {
     RecyclerView recyclerView;
     EditText editText_search;
     Button button_search;
+    Dialog myDialog;
 
     //database
-    final String DATABASE_NAME = "ntg.sqlite";
+    //final String DATABASE_NAME = "ntg.sqlite";
+    final String DATABASE_NAME = "arenadata.sqlite";
     SQLiteDatabase sqLiteDatabase;
     ArrayList<data_Element> arrayList;
     adapter_Element dataA;
@@ -37,9 +42,28 @@ public class ChemicalElement extends AppCompatActivity {
 
         initView();
         findDataSearch();
+        myDialog = new Dialog(this);
+        //test dialog
 
         //menu fillter
         registerForContextMenu(button_search);
+    }
+
+    public void ShowDialog(View v){
+        Button button_close;
+        myDialog.setContentView(R.layout.custom_element);
+        button_close = (Button) myDialog.findViewById(R.id.btn_close);
+
+        button_close.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myDialog.dismiss();
+            }
+        });
+
+        //tranparent background dialog
+        myDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        myDialog.show();
     }
 
     private void findDataSearch() {
@@ -57,7 +81,7 @@ public class ChemicalElement extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s == null){
-                    readData("",1,0, 2);
+                    //readData("",1,0, 2);
                 }
                 else{
                     readData(s.toString(),1,0,2);
@@ -68,32 +92,33 @@ public class ChemicalElement extends AppCompatActivity {
 
     private void readData(String s, int _metal , int _nometal,int _rareGas){
         sqLiteDatabase = Database.initDatabase(this,DATABASE_NAME);
-        String countQuery = "SELECT  * FROM  NGUYENTO WHERE "
-                +"( NAME_NT " +" like '%"+s+"%'"
-                + "OR CK" + " like '%"+s+"%'"
-                + "OR GP" +" like '"+s+"')";
+        String countQuery = "SELECT  * FROM  Element WHERE "
+                +"( Latin_Name " +" like '%"+s+"%'"
+                + "OR Old_Group" + " like '%"+s+"%'"
+                + "OR Period" +" like '"+s+"')";
         Cursor cursor = sqLiteDatabase.rawQuery(countQuery,null);
         arrayList.clear();
 
         for (int i = 0; i < cursor.getCount(); i++) {
             cursor.moveToPosition(i);
-            int id_ele = cursor.getInt(0);
-            String name_ele = cursor.getString(1);
-            String symbol_ele = cursor.getString(2);
-            String ato_ele = cursor.getString(4);
-            String group_ele = cursor.getString(5);
-            String cycle_ele = cursor.getString(6);
+            int id_ele = cursor.getInt(9);
+            String name_ele = cursor.getString(2);
+            String symbol_ele = cursor.getString(4);
+            String ato_ele = cursor.getString(1);
+            String group_ele = cursor.getString(8);
+            String cycle_ele = cursor.getString(12);
             String oxi_ele = cursor.getString(7);
 
             //type img
-            int typeElement = cursor.getInt(3);
+            //int typeElement = cursor.getInt(3);
 
-            if (typeElement == _metal) {
+            //if (typeElement == _metal)
+            {
                 arrayList.add(new data_Element(id_ele, R.drawable.img_a, name_ele, symbol_ele, ato_ele, group_ele, cycle_ele, oxi_ele));
             }
-            else if (typeElement == _nometal){
-                arrayList.add(new data_Element(id_ele, R.drawable.img_b, name_ele, symbol_ele, ato_ele, group_ele, cycle_ele, oxi_ele));
-            }
+//            else if (typeElement == _nometal){
+//                arrayList.add(new data_Element(id_ele, R.drawable.img_b, name_ele, symbol_ele, ato_ele, group_ele, cycle_ele, oxi_ele));
+//            }
         }
         dataA.notifyDataSetChanged();
     }

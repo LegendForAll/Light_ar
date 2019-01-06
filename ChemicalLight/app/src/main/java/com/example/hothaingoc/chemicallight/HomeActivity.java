@@ -16,6 +16,7 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
     CardView cEle;
     CardView cEque;
     CardView cIdea;
+    CardView cGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,11 +30,13 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         cEle = (CardView) findViewById(R.id.carEle);
         cEque = (CardView) findViewById(R.id.carEque);
         cIdea = (CardView) findViewById(R.id.carIdea);
+        cGame = (CardView) findViewById(R.id.carGame);
 
         //add click listener
         cEle.setOnClickListener(this);
         cEque.setOnClickListener(this);
         cIdea.setOnClickListener(this);
+        cGame.setOnClickListener(this);
     }
 
     @Override
@@ -48,6 +51,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
             case R.id.carEque:{
                 intent = new Intent(HomeActivity.this,ChemicalEquation.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.carGame:{
+                intent = new Intent(HomeActivity.this,ChemicalGame.class);
                 startActivity(intent);
                 break;
             }

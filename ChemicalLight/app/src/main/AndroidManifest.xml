@@ -22,6 +22,8 @@
         </activity>
         <activity android:name=".ChemicalElement">
         </activity>
+        <activity android:name=".ChemicalGame">
+        </activity>
     </application>
 
 </manifest>

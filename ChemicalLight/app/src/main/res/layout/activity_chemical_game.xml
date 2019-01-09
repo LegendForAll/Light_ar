@@ -11,20 +11,25 @@
             android:layout_width="match_parent"
             android:layout_height="350dp"
             android:orientation="vertical">
-        <ImageView
-                android:src="@drawable/i_game"
+
+        <TextView
+                android:id="@+id/high_core"
+                android:textSize="20sp"
+                android:text="The best 9000 coins"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"/>
+                android:layout_marginTop="20dp"
+                android:layout_gravity="center"
+                android:textColor="@color/Metalloid"/>
 
         <android.support.v7.widget.CardView
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginStart="60dp"
                 android:layout_marginEnd="60dp"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="150dp"
                 app:cardCornerRadius="10dp"
-                android:backgroundTint="@color/colortest">
+                android:backgroundTint="@color/colorAccent">
 
             <TextView
                     android:id="@+id/txt_NameElement"
@@ -42,7 +47,24 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Score"
-                android:textSize="25sp"/>
+                android:textSize="25sp"
+                android:textColor="@color/OtherNonmetal"/>
+        <ProgressBar
+                android:id="@+id/pro_time"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_margin="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        <TextView
+                android:id="@+id/txt_timetick"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_gravity="center"
+                android:textSize="20sp"
+                android:textColor="@color/colorAccent"
+                android:text="00:00"/>
     </LinearLayout>
 
     <LinearLayout

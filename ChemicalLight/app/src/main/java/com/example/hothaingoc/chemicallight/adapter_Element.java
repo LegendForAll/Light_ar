@@ -1,11 +1,13 @@
 package com.example.hothaingoc.chemicallight;
 
 import android.app.Activity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import org.w3c.dom.Text;
 
@@ -39,6 +41,57 @@ public class adapter_Element extends RecyclerView.Adapter<adapter_Element.ViewHo
         holder.group_ele.setText(dataEle.get(position).getGroup());
         holder.cycle_ele.setText(dataEle.get(position).getCycle());
         holder.oxi_ele.setText(dataEle.get(position).getOxi());
+        holder.E_gativity.setText(dataEle.get(position).getElec_gativity());
+
+        int tempColor = dataEle.get(position).getColortype();
+
+        switch (tempColor){
+            case 1:{
+                holder.br_color.setBackgroundColor(ContextCompat.getColor(context,R.color.AlkaliMetal));
+                break;
+            }
+            case 2:{
+                holder.br_color.setBackgroundColor(ContextCompat.getColor(context,R.color.AlkalineEarthMetal));
+                break;
+            }
+            case 3:{
+                holder.br_color.setBackgroundColor(ContextCompat.getColor(context,R.color.TransitionMetal));
+                break;
+            }
+            case 4:{
+                holder.br_color.setBackgroundColor(ContextCompat.getColor(context,R.color.OtherMetal));
+                break;
+            }
+            case 5:{
+                holder.br_color.setBackgroundColor(ContextCompat.getColor(context,R.color.Metalloid));
+                break;
+            }
+            case 6:{
+                holder.br_color.setBackgroundColor(ContextCompat.getColor(context,R.color.OtherNonmetal));
+                break;
+            }
+            case 7:{
+                holder.br_color.setBackgroundColor(ContextCompat.getColor(context,R.color.Halogen));
+                break;
+            }
+            case 8:{
+                holder.br_color.setBackgroundColor(ContextCompat.getColor(context,R.color.NobleGas));
+                break;
+            }
+            case 9:{
+                holder.br_color.setBackgroundColor(ContextCompat.getColor(context,R.color.Other));
+                break;
+            }
+            case 10:{
+                holder.br_color.setBackgroundColor(ContextCompat.getColor(context,R.color.Hydrogen));
+                break;
+            }
+            default:{
+                break;
+            }
+        }
+
+
 
     }
 
@@ -57,6 +110,8 @@ public class adapter_Element extends RecyclerView.Adapter<adapter_Element.ViewHo
         TextView group_ele;
         TextView cycle_ele;
         TextView oxi_ele;
+        LinearLayout br_color;
+        TextView E_gativity;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -69,6 +124,8 @@ public class adapter_Element extends RecyclerView.Adapter<adapter_Element.ViewHo
             group_ele = (TextView) itemView.findViewById(R.id.txt_Group);
             cycle_ele = (TextView) itemView.findViewById(R.id.txt_cycle);
             oxi_ele = (TextView) itemView.findViewById(R.id.txt_oxi);
+            br_color = (LinearLayout) itemView.findViewById(R.id.bg_element);
+            E_gativity = (TextView) itemView.findViewById(R.id.txt_Egativity);
         }
     }
 }

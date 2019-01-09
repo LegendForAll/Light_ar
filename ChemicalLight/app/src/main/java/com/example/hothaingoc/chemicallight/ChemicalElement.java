@@ -30,7 +30,7 @@ public class ChemicalElement extends AppCompatActivity {
 
     //database
     //final String DATABASE_NAME = "ntg.sqlite";
-    final String DATABASE_NAME = "arenadata.sqlite";
+    final String DATABASE_NAME = "dataver1.sqlite";
     SQLiteDatabase sqLiteDatabase;
     ArrayList<data_Element> arrayList;
     adapter_Element dataA;
@@ -108,13 +108,16 @@ public class ChemicalElement extends AppCompatActivity {
             String group_ele = cursor.getString(8);
             String cycle_ele = cursor.getString(12);
             String oxi_ele = cursor.getString(7);
+            String Egativity_ele = cursor.getString(6);
+
+            int type_ele = cursor.getInt(26);
 
             //type img
             //int typeElement = cursor.getInt(3);
 
             //if (typeElement == _metal)
             {
-                arrayList.add(new data_Element(id_ele, R.drawable.img_a, name_ele, symbol_ele, ato_ele, group_ele, cycle_ele, oxi_ele));
+                arrayList.add(new data_Element(id_ele, R.drawable.img_b, name_ele, symbol_ele, ato_ele, group_ele, cycle_ele, oxi_ele,type_ele,Egativity_ele));
             }
 //            else if (typeElement == _nometal){
 //                arrayList.add(new data_Element(id_ele, R.drawable.img_b, name_ele, symbol_ele, ato_ele, group_ele, cycle_ele, oxi_ele));

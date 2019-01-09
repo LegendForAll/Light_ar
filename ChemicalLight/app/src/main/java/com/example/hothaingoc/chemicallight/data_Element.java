@@ -10,12 +10,14 @@ public class data_Element {
     private  String group;
     private  String cycle;
     private  String oxi;
+    private  int colortype;
+    private  String Elec_gativity;
 
     public data_Element() {
 
     }
 
-    public data_Element(int id, int img, String name, String symbol, String atomic_mass, String group, String cycle, String oxi) {
+    public data_Element(int id, int img, String name, String symbol, String atomic_mass, String group, String cycle, String oxi, int colortype, String elec_gativity) {
         this.id = id;
         this.img = img;
         this.name = name;
@@ -24,6 +26,8 @@ public class data_Element {
         this.group = group;
         this.cycle = cycle;
         this.oxi = oxi;
+        this.colortype = colortype;
+        this.Elec_gativity = elec_gativity;
     }
 
     public int getId() {
@@ -88,5 +92,21 @@ public class data_Element {
 
     public void setOxi(String oxi) {
         this.oxi = oxi;
+    }
+
+    public int getColortype() {
+        return colortype;
+    }
+
+    public void setColortype(int colortype) {
+        this.colortype = colortype;
+    }
+
+    public String getElec_gativity() {
+        return Elec_gativity;
+    }
+
+    public void setElec_gativity(String elec_gativity) {
+        Elec_gativity = elec_gativity;
     }
 }

@@ -10,20 +10,31 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 public class ChemicalGame extends AppCompatActivity {
 
     TextView textView_element;
     TextView textView_score;
+    TextView textView_time;
+
     Button buttonA, buttonB, buttonStart;
-    int isAns;
+    int isAns, trueFalse;
     int status; //-1: start; 0: run; 1: stop
     int currentScore;
+    int winLose;
+    ProgressBar progressBar_time;
+
+    //timer
+    CountDownTimer countDownTimer;
+    private static final long LIMIT_TIME = 10000;
+    private long timeLeftinmills;
 
 
     final String DATABASE_NAME = "arenadata.sqlite";
@@ -84,13 +95,14 @@ public class ChemicalGame extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isAns == 0){
-                    buttonA.setBackground(new ColorDrawable(Color.GREEN));
+                    //answer true
+                    requestion();
+                    updateCore(10);
                 }
                 else {
-                    buttonA.setBackground(new ColorDrawable(Color.RED));
+                    //answer false
+                    statusWinLose();
                 }
-                //requestion();
-                countTimer(1500);
             }
         });
 
@@ -98,14 +110,77 @@ public class ChemicalGame extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isAns == 1){
-                    buttonB.setBackground(new ColorDrawable(Color.GREEN));
+                    //answer true
+                    requestion();
+                    updateCore(10);
                 }
                 else {
-                    buttonB.setBackground(new ColorDrawable(Color.RED));
+                    //answer false
+                    statusWinLose();
                 }
-                countTimer(1500);
             }
         });
+    }
+
+    private void updateCore(int corePlus) {
+        currentScore += corePlus;
+        textView_score.setText(String.valueOf(currentScore));
+    }
+
+    private void startTick() {
+
+        //reset tool timer
+        timeLeftinmills = LIMIT_TIME;
+        progressBar_time.setProgress(0);
+
+        if(countDownTimer != null)
+        {
+            countDownTimer.cancel();
+        }
+        countDownTimer = new CountDownTimer(timeLeftinmills,1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeLeftinmills = millisUntilFinished;
+                updateCountdownText();
+                //test progressbar
+                updateCountDownPro();
+            }
+
+            @Override
+            public void onFinish() {
+                Toast.makeText(ChemicalGame.this, "Over", Toast.LENGTH_SHORT).show();
+                timeLeftinmills = 0;
+                updateCountdownText();
+                //test progressbar
+                updateCountDownPro();
+
+                //checkAnswer();
+            }
+        }.start();
+    }
+
+    private void updateCountDownPro() {
+        int curprogress = progressBar_time.getProgress();
+        if(curprogress > progressBar_time.getMax()){
+            progressBar_time.setProgress(0);
+        }
+        else{
+            progressBar_time.setProgress(curprogress+10);
+        }
+    }
+
+    private void updateCountdownText() {
+        int tempMI = (int)(timeLeftinmills/1000) / 60;
+        int tempSe = (int)(timeLeftinmills/1000) % 60;
+        String timeTemp = String.format(Locale.getDefault(),"%02d:%02d",tempMI,tempSe);
+        textView_time.setText(timeTemp);
+
+        if(timeLeftinmills < 5000){
+            textView_time.setTextColor(Color.RED);
+        }
+        else{
+            textView_time.setTextColor(Color.GREEN);
+        }
     }
 
     private void requestion(){
@@ -117,9 +192,13 @@ public class ChemicalGame extends AppCompatActivity {
         int i1 = r.nextInt(max - min + 1) + min;
         int ar = r.nextInt(2);
 
-        //reset color
-        buttonA.setBackground(new ColorDrawable(Color.TRANSPARENT));
-        buttonB.setBackground(new ColorDrawable(Color.TRANSPARENT));
+        //timer progessbar
+        //progressBar_time.setProgress(0);
+        //countTimer(10000,100);
+        startTick();
+
+        //update core
+        textView_score.setText(String.valueOf(currentScore));
 
 
         //data question
@@ -134,7 +213,7 @@ public class ChemicalGame extends AppCompatActivity {
         textView_element.setText(quesName);
 
 
-        Toast.makeText(this, String.valueOf(ar), Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this, String.valueOf(ar), Toast.LENGTH_SHORT).show();
         isAns = ar;
         switch (isAns){
 
@@ -152,19 +231,15 @@ public class ChemicalGame extends AppCompatActivity {
 
     }
 
-    private void countTimer(int timeSize){
-        CountDownTimer countDownTimer = new CountDownTimer(timeSize,1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-
-            }
-
-            @Override
-            public void onFinish() {
-                requestion();
-            }
-        };
-        countDownTimer.start();
+    private void statusWinLose(){
+        Toast.makeText(ChemicalGame.this, "gameOver", Toast.LENGTH_SHORT).show();
+        textView_element.setText("Game Over");
+        status = -1;
+        buttonStart.setText("Start");
+        currentScore = 0;
+        textView_score.setText("0");
+        buttonA.setVisibility(View.INVISIBLE);
+        buttonB.setVisibility(View.INVISIBLE);
     }
 
     private void initView() {
@@ -172,13 +247,20 @@ public class ChemicalGame extends AppCompatActivity {
         isAns = -1;
         currentScore = 0;
         status = -1;
+        winLose = 0;
 
         textView_element = (TextView) findViewById(R.id.txt_NameElement);
         textView_score = (TextView) findViewById(R.id.txt_score);
+        textView_time = (TextView) findViewById(R.id.txt_timetick);
+
         buttonA = (Button) findViewById(R.id.btn_anA);
         buttonB = (Button) findViewById(R.id.btn_anB);
         buttonA.setVisibility(View.INVISIBLE);
         buttonB.setVisibility(View.INVISIBLE);
         buttonStart = (Button) findViewById(R.id.btn_start);
+
+        progressBar_time = (ProgressBar) findViewById(R.id.pro_time);
+        progressBar_time.setMax(100);
+        progressBar_time.setProgress(0);
     }
 }

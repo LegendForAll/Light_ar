@@ -22,7 +22,7 @@ public class ChemicalGame extends AppCompatActivity {
 
     TextView textView_element;
     TextView textView_score;
-    TextView textView_time;
+    Button textView_time;
 
     Button buttonA, buttonB, buttonStart;
     int isAns, trueFalse;
@@ -251,7 +251,7 @@ public class ChemicalGame extends AppCompatActivity {
 
         textView_element = (TextView) findViewById(R.id.txt_NameElement);
         textView_score = (TextView) findViewById(R.id.txt_score);
-        textView_time = (TextView) findViewById(R.id.txt_timetick);
+        textView_time = (Button) findViewById(R.id.btn_timetick);
 
         buttonA = (Button) findViewById(R.id.btn_anA);
         buttonB = (Button) findViewById(R.id.btn_anB);

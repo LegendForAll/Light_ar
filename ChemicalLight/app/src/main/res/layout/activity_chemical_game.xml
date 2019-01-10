@@ -9,62 +9,45 @@
         tools:context=".ChemicalGame">
     <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="350dp"
+            android:layout_height="300dp"
             android:orientation="vertical">
 
-        <TextView
-                android:id="@+id/high_core"
-                android:textSize="20sp"
-                android:text="The best 9000 coins"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+        <LinearLayout
                 android:layout_marginTop="20dp"
+                android:layout_width="300dp"
+                android:layout_height="200dp"
                 android:layout_gravity="center"
-                android:textColor="@color/Metalloid"/>
-
-        <android.support.v7.widget.CardView
-                android:layout_marginTop="10dp"
-                android:layout_marginStart="60dp"
-                android:layout_marginEnd="60dp"
-                android:layout_width="match_parent"
-                android:layout_height="150dp"
-                app:cardCornerRadius="10dp"
-                android:backgroundTint="@color/colorAccent">
+                android:gravity="center"
+                android:background="@drawable/car_question">
 
             <TextView
                     android:id="@+id/txt_NameElement"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_marginTop="-30dp"
                     android:text="..."
                     android:textSize="45sp"/>
-        </android.support.v7.widget.CardView>
 
-        <TextView
-                android:id="@+id/txt_score"
-                android:layout_marginTop="10dp"
-                android:layout_width="match_parent"
+        </LinearLayout>
+        <Button
+                android:id="@+id/btn_timetick"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Score"
-                android:textSize="25sp"
-                android:textColor="@color/OtherNonmetal"/>
+                android:layout_marginTop="-40dp"
+                android:textSize="20sp"
+                android:text="00:30"
+                android:layout_gravity="center"
+                android:background="@drawable/br_time"/>
+
         <ProgressBar
                 android:id="@+id/pro_time"
                 style="@style/Widget.AppCompat.ProgressBar.Horizontal"
                 android:layout_margin="10dp"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-        <TextView
-                android:id="@+id/txt_timetick"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_gravity="center"
-                android:textSize="20sp"
-                android:textColor="@color/colorAccent"
-                android:text="00:00"/>
+                android:visibility="invisible"/>
+
+
     </LinearLayout>
 
     <LinearLayout
@@ -75,27 +58,43 @@
         <Button
                 android:id="@+id/btn_anA"
                 android:layout_width="150dp"
-                android:layout_height="100dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
                 android:text="A"
-                android:textSize="30sp"/>
+                android:textSize="30sp"
+                android:background="@drawable/ans"/>
 
         <Button
                 android:id="@+id/btn_anB"
                 android:layout_width="150dp"
-                android:layout_height="100dp"
+                android:layout_height="50dp"
+                android:layout_margin="5dp"
                 android:text="B"
-                android:textSize="30sp"/>
+                android:textSize="30sp"
+                android:background="@drawable/ans"/>
+
     </LinearLayout>
     <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center_horizontal">
-        <Button
-                android:id="@+id/btn_start"
+            android:gravity="center">
+        <TextView
+                android:id="@+id/txt_score"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="start"/>
+                android:layout_marginTop="-25dp"
+                android:gravity="center"
+                android:text="0"
+                android:textSize="25sp"
+                android:background="@drawable/br_points"/>
+        <Button
+                android:id="@+id/btn_start"
+                android:layout_marginTop="10dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="start"
+                android:background="@drawable/br_status"/>
     </LinearLayout>
 
 

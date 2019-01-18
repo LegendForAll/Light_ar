@@ -13,7 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class ChemicalNote extends AppCompatActivity {
 
@@ -25,6 +27,8 @@ public class ChemicalNote extends AppCompatActivity {
 
     EditText editText_topic, editText_main;
     Button insert;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,17 +54,26 @@ public class ChemicalNote extends AppCompatActivity {
 
         String topicT = editText_topic.getText().toString();
         String mainT = editText_main.getText().toString();
+        String currentDate;
 
         ContentValues contentValues = new ContentValues();
+        currentDate = getCurrentTime();
 
         contentValues.put("Topic",topicT);
-        contentValues.put("TimeNote","1/19/2019");
+        contentValues.put("TimeNote",currentDate);
         contentValues.put("MainNote",mainT);
 
 
         sqLiteDatabase.insert("NOTEBOOK",null,contentValues);
         Toast.makeText(this, "Inserted...", Toast.LENGTH_SHORT).show();
         readData();
+    }
+
+    private String getCurrentTime() {
+        Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat mdformat = new SimpleDateFormat("yyyy / MM / dd ");
+        String strDate =mdformat.format(calendar.getTime());
+        return strDate;
     }
 
     private void readData() {

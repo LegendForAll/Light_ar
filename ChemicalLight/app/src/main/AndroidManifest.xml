@@ -28,6 +28,8 @@
         </activity>
         <activity android:name=".ChemicalEditNote">
         </activity>
+        <activity android:name=".ChemicalInfor">
+        </activity>
     </application>
 
 </manifest>

@@ -14,9 +14,4 @@
             android:id="@+id/KH"
             android:title="Rare gas"
     />
-
-    <item
-            android:id="@+id/G"
-            android:title="Group"
-    />
 </menu>

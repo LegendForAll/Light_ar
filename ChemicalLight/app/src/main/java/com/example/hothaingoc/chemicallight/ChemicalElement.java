@@ -29,7 +29,6 @@ public class ChemicalElement extends AppCompatActivity {
     Dialog myDialog;
 
     //database
-    //final String DATABASE_NAME = "ntg.sqlite";
     final String DATABASE_NAME = "dataver1.sqlite";
     SQLiteDatabase sqLiteDatabase;
     ArrayList<data_Element> arrayList;
@@ -41,6 +40,7 @@ public class ChemicalElement extends AppCompatActivity {
         setContentView(R.layout.activity_chemical_element);
 
         initView();
+        readData("",0,0, 0);
         findDataSearch();
         myDialog = new Dialog(this);
         //test dialog
@@ -84,7 +84,7 @@ public class ChemicalElement extends AppCompatActivity {
                     //readData("",1,0, 2);
                 }
                 else{
-                    readData(s.toString(),1,0,2);
+                    readData(s.toString(),0,0,0);
                 }
             }
         });
@@ -115,13 +115,25 @@ public class ChemicalElement extends AppCompatActivity {
             //type img
             //int typeElement = cursor.getInt(3);
 
-            //if (typeElement == _metal)
-            {
+            if (_metal == 1) {
+                if(type_ele >= 0 && type_ele <= 5){
+                    arrayList.add(new data_Element(id_ele, R.drawable.img_b, name_ele, symbol_ele, ato_ele, group_ele, cycle_ele, oxi_ele,type_ele,Egativity_ele));
+                }
+            }
+            else if(_nometal == 1){
+                if(type_ele == 6){
+                    arrayList.add(new data_Element(id_ele, R.drawable.img_b, name_ele, symbol_ele, ato_ele, group_ele, cycle_ele, oxi_ele,type_ele,Egativity_ele));
+                }
+            }
+            else if(_rareGas == 1){
+                if(type_ele > 6){
+                    arrayList.add(new data_Element(id_ele, R.drawable.img_b, name_ele, symbol_ele, ato_ele, group_ele, cycle_ele, oxi_ele,type_ele,Egativity_ele));
+                }
+            }
+            else if (_metal == 0 || _nometal == 0 || _rareGas == 0){
                 arrayList.add(new data_Element(id_ele, R.drawable.img_b, name_ele, symbol_ele, ato_ele, group_ele, cycle_ele, oxi_ele,type_ele,Egativity_ele));
             }
-//            else if (typeElement == _nometal){
-//                arrayList.add(new data_Element(id_ele, R.drawable.img_b, name_ele, symbol_ele, ato_ele, group_ele, cycle_ele, oxi_ele));
-//            }
+
         }
         dataA.notifyDataSetChanged();
     }
@@ -140,19 +152,20 @@ public class ChemicalElement extends AppCompatActivity {
             case R.id.KL:
             {
                 //FillMetal();
-                readData("",1,-1, -1);
+                readData("",1,0, 0);
                 break;
             }
 
             case R.id.PK:
             {
                 //FillNonmetals();
-                readData("",-1,0, -1);
+                readData("",0,1, 0);
                 break;
             }
 
             case R.id.KH:
             {
+                readData("",0,0, 1);
                 break;
             }
         }

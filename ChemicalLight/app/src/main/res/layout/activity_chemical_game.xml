@@ -18,13 +18,21 @@
                 android:layout_height="200dp"
                 android:layout_gravity="center"
                 android:gravity="center"
+                android:orientation="vertical"
                 android:background="@drawable/car_question">
+            <Button
+                    android:id="@+id/high_game"
+                    android:layout_marginTop="-35dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/holo_red_light"
+                    android:background="@drawable/br_high"/>
 
             <TextView
                     android:id="@+id/txt_NameElement"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="-30dp"
+                    android:layout_marginTop="15dp"
                     android:text="..."
                     android:textSize="45sp"/>
 

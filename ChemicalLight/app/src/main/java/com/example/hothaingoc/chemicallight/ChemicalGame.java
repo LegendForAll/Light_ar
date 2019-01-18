@@ -1,5 +1,6 @@
 package com.example.hothaingoc.chemicallight;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,10 +25,11 @@ public class ChemicalGame extends AppCompatActivity {
     TextView textView_score;
     Button textView_time;
 
-    Button buttonA, buttonB, buttonStart;
+    Button buttonA, buttonB, buttonStart, buttonHigh;
     int isAns, trueFalse;
     int status; //-1: start; 0: run; 1: stop
     int currentScore;
+    int highScore;
     int winLose;
     ProgressBar progressBar_time;
 
@@ -39,6 +41,11 @@ public class ChemicalGame extends AppCompatActivity {
 
     final String DATABASE_NAME = "arenadata.sqlite";
     SQLiteDatabase sqLiteDatabase;
+
+    //test high score
+    final String DATA_SCORE = "note.sqlite";
+    SQLiteDatabase sqlHigh;
+
     ArrayList<data_Element> arrayList;
     adapter_Element dataA;
 
@@ -58,6 +65,7 @@ public class ChemicalGame extends AppCompatActivity {
                 buttonStart.setText("Stop");
                 buttonA.setVisibility(View.VISIBLE);
                 buttonB.setVisibility(View.VISIBLE);
+                textView_time.setVisibility(View.VISIBLE);
                 requestion();
                 break;
             }
@@ -67,6 +75,7 @@ public class ChemicalGame extends AppCompatActivity {
                 buttonStart.setText("Continue");
                 buttonA.setVisibility(View.INVISIBLE);
                 buttonB.setVisibility(View.INVISIBLE);
+                textView_time.setVisibility(View.INVISIBLE);
                 break;
             }
             //stop
@@ -75,6 +84,7 @@ public class ChemicalGame extends AppCompatActivity {
                 buttonStart.setText("Stop");
                 buttonA.setVisibility(View.VISIBLE);
                 buttonB.setVisibility(View.VISIBLE);
+                textView_time.setVisibility(View.VISIBLE);
                 break;
             }
             default: break;
@@ -125,6 +135,13 @@ public class ChemicalGame extends AppCompatActivity {
     private void updateCore(int corePlus) {
         currentScore += corePlus;
         textView_score.setText(String.valueOf(currentScore));
+
+        //test high score
+        if(currentScore > highScore){
+            highScore = currentScore;
+            buttonHigh.setText(String.valueOf(highScore));
+        }
+
     }
 
     private void startTick() {
@@ -148,13 +165,12 @@ public class ChemicalGame extends AppCompatActivity {
 
             @Override
             public void onFinish() {
-                Toast.makeText(ChemicalGame.this, "Over", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ChemicalGame.this, "Over", Toast.LENGTH_SHORT).show();
                 timeLeftinmills = 0;
                 updateCountdownText();
                 //test progressbar
                 updateCountDownPro();
-
-                //checkAnswer();
+                statusWinLose();
             }
         }.start();
     }
@@ -187,7 +203,7 @@ public class ChemicalGame extends AppCompatActivity {
 
         //random
         int min = 1;
-        int max = 118;
+        int max = 40;
         Random r = new Random();
         int i1 = r.nextInt(max - min + 1) + min;
         int ar = r.nextInt(2);
@@ -232,7 +248,7 @@ public class ChemicalGame extends AppCompatActivity {
     }
 
     private void statusWinLose(){
-        Toast.makeText(ChemicalGame.this, "gameOver", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(ChemicalGame.this, "gameOver", Toast.LENGTH_SHORT).show();
         textView_element.setText("Game Over");
         status = -1;
         buttonStart.setText("Start");
@@ -240,6 +256,12 @@ public class ChemicalGame extends AppCompatActivity {
         textView_score.setText("0");
         buttonA.setVisibility(View.INVISIBLE);
         buttonB.setVisibility(View.INVISIBLE);
+        textView_time.setVisibility(View.INVISIBLE);
+
+        sqlHigh= Database.initDatabase(this,DATA_SCORE);
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("HC",String.valueOf(highScore));
+        sqlHigh.update("HIGHGAME",contentValues,"ID=?",new String[]{"1"});
     }
 
     private void initView() {
@@ -257,10 +279,19 @@ public class ChemicalGame extends AppCompatActivity {
         buttonB = (Button) findViewById(R.id.btn_anB);
         buttonA.setVisibility(View.INVISIBLE);
         buttonB.setVisibility(View.INVISIBLE);
+        textView_time.setVisibility(View.INVISIBLE);
         buttonStart = (Button) findViewById(R.id.btn_start);
+        buttonHigh = (Button) findViewById(R.id.high_game);
 
         progressBar_time = (ProgressBar) findViewById(R.id.pro_time);
         progressBar_time.setMax(100);
         progressBar_time.setProgress(0);
+
+        sqlHigh = Database.initDatabase(this,DATA_SCORE);
+        Cursor cursor = sqlHigh.rawQuery("SELECT * FROM HIGHGAME WHERE ID = ? ",new String[]{"1"});
+        cursor.moveToFirst();
+        highScore = cursor.getInt(1);
+        buttonHigh.setText(String.valueOf(highScore));
+
     }
 }

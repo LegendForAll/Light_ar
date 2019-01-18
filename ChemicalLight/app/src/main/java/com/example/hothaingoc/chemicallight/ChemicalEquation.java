@@ -32,7 +32,7 @@ public class ChemicalEquation extends AppCompatActivity {
     EditText editText_TG;
     Button button_Search;
 
-    Dialog equaDialog;
+    Dialog equaDialog, reactDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +45,7 @@ public class ChemicalEquation extends AppCompatActivity {
 
         //Test dialog
         equaDialog = new Dialog(this);
+        reactDialog = new Dialog(this);
 
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP|ItemTouchHelper.DOWN,0) {
             @Override
@@ -68,6 +69,22 @@ public class ChemicalEquation extends AppCompatActivity {
             }
         });
         itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    public void ShowReactDialog(View v){
+        Button button_close_re;
+        reactDialog.setContentView(R.layout.custom_reactivity_series);
+        button_close_re = (Button) reactDialog.findViewById(R.id.btn_close_reactivity);
+
+        button_close_re.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reactDialog.dismiss();
+            }
+        });
+
+        reactDialog.getWindow().setBackgroundDrawable( new ColorDrawable(Color.TRANSPARENT));
+        reactDialog.show();
     }
 
     public void ShowEquaDialog(View v){

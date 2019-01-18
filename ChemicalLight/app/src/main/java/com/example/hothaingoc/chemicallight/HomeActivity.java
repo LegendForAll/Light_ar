@@ -1,7 +1,10 @@
 package com.example.hothaingoc.chemicallight;
 
+import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
@@ -25,6 +28,32 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_home);
 
         initView();
+    }
+
+    public void onBackPressed(){
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle("Exit...");
+        alert.setIcon(R.drawable.ic_exit);
+        alert.setMessage("Are you sure you want to exit.");
+        alert.setCancelable(false);
+
+        alert.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //finish();
+                System.exit(0);
+            }
+        });
+
+        alert.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+
+        AlertDialog alertDialog = alert.create();
+        alertDialog.show();
     }
 
     private void initView() {
@@ -64,6 +93,11 @@ public class HomeActivity extends AppCompatActivity implements View.OnClickListe
             }
             case R.id.carInfor:{
                 intent = new Intent(HomeActivity.this,ChemicalNote.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.carIdea:{
+                intent = new Intent(HomeActivity.this,ChemicalInfor.class);
                 startActivity(intent);
                 break;
             }

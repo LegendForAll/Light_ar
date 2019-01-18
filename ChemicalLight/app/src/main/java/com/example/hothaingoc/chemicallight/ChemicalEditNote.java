@@ -36,14 +36,14 @@ public class ChemicalEditNote extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 updateNote();
-                goBack();
+                //goBack();
             }
         });
         button_de.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 deleleNote();
-                goBack();
+                //goBack();
             }
         });
     }
@@ -59,6 +59,7 @@ public class ChemicalEditNote extends AppCompatActivity {
         String idUp = textView_ms.getText().toString();
         sqLiteDatabase.delete("NOTEBOOK","Id=?",new String[]{idUp});
         Toast.makeText(this, "Deleted...", Toast.LENGTH_SHORT).show();
+        initUI();
 
     }
 
@@ -73,6 +74,7 @@ public class ChemicalEditNote extends AppCompatActivity {
 
         sqLiteDatabase.update("NOTEBOOK",contentValues,"Id=?",new String[]{idUp});
         Toast.makeText(this, "Updated...", Toast.LENGTH_SHORT).show();
+        initUI();
     }
 
     private void initUI() {

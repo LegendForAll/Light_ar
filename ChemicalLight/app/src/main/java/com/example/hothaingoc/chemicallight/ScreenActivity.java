@@ -32,7 +32,7 @@ public class ScreenActivity extends AppCompatActivity {
         L2.setAnimation(downtoup);
 
         //auto change activity
-        CountDownTimer countDownTimer = new CountDownTimer(2000,1000) {
+        CountDownTimer countDownTimer = new CountDownTimer(3000,1000) {
             @Override
             public void onTick(long millisUntilFinished) {
 
@@ -43,6 +43,7 @@ public class ScreenActivity extends AppCompatActivity {
                 //Change screen
                 Intent intent = new Intent(ScreenActivity.this,HomeActivity.class);
                 startActivity(intent);
+                finish();
 
             }
         };
